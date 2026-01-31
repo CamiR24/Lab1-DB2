@@ -120,3 +120,36 @@ db.recipes.find(
     type: 1
   }
 )
+
+//eliminar las recetas que sean dificiles de cocinar
+db.recipes.deletemany(
+  {"cook_time": {$gt: 60}}
+)
+
+//crear tres usuarios con nombre, apellido, email y password
+db.users.insertMany([
+  {"firstName": "Joe", "lastname": "Burrow", "correo_electronico": "joeburrow@gmail.com", "contrasena": "bengalsqb"},
+  {"firstName": "Matthew", "lastname": "Stafford", "correo_electronico": "matthewstafford@gmail.com", "contrasena": "ramsqb"},
+  {"firstName": "Cristhian", "lastname": "McCaffrey", "correo_electronico" : "cristhianmc@gmail.com", "contrasena": "49ersrb"}
+])
+
+//añadir una receta favorita a cada usuario creado
+db.users.updateOne(
+  {"firstName": "Joe"},
+  {$set: {"receta_fav": "Pancakes"}}
+)
+
+db.users.updateOne(
+  {"firstName": "Matthew"},
+  {$set: {"receta_fav": "Brown Sugar Meatloaf"}}
+)
+
+db.users.updateOne(
+  {"firstName": "Cristhian"},
+  {$set: {"receta_fav": "Apple Pie"}}
+)
+
+//encontrar los usuarios con dominio gmail
+db.users.find(
+  { "correo_electronico": /@gmail\.com$/ }
+)
