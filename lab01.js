@@ -153,3 +153,36 @@ db.users.updateOne(
 db.users.find(
   { "correo_electronico": /@gmail\.com$/ }
 )
+
+
+//.	Agregar un campo de actividad a los usuarios, para indicar si están activos o inactivos con un valor booleano.
+db.users.updateMany(
+  {},
+  { $set: { "activo": true } }
+)
+
+//Cree una consulta en la que inactive a 2 usuarios.
+db.users.updateMany(
+  { "firstName": { $in: ["Joe", "Matthew"] } },
+  { $set: { "activo": false } }
+)
+
+//Cambiar la unidad de medida de todas las recetas que tienen lb a kg
+db.recipes.updateMany(
+  { "ingredients.quantity.unit": "lbs" },
+  {
+    $set: {
+      "ingredients.$[ing].quantity.unit": "kg"
+    }
+  },
+  {
+    arrayFilters: [
+      { "ing.quantity.unit": "lbs" }
+    ]
+  }
+)
+
+//Consulta que elimine a los usuarios inactivos.
+db.users.deletemany(
+  { "activo": false }
+)
